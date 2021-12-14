@@ -50,7 +50,6 @@ class mainwindow(QMainWindow, Ui_in_calculator):
     def btn_plus_click(self):
         self.code = " + "
         self.label_result.setText(self.result_start + self.tem_num_1 + self.code + self.result_end)
-        
         pass
 
     def btn_sub_click(self):
@@ -69,7 +68,6 @@ class mainwindow(QMainWindow, Ui_in_calculator):
         pass
     
     def btn_cancel_click(self):
-        
         pass
 
     def btn_delete_click(self):
