@@ -48,46 +48,41 @@ class mainwindow(QMainWindow, Ui_in_calculator):
         pass
     
     def btn_plus_click(self):
-        self.code = "add"
-        if self.cal == False:
-            self.tem_num_1 += " + "
-            self.label_result.setText(self.result_start + self.tem_num_1 + self.result_end)
-            self.cal = True
-        if self.tem_num_1[-3:] != " + ":
-            self.tem_num_1 = self.tem_num_1[0:-3] + " + "
-            self.label_result.setText(self.result_start + self.tem_num_1 + self.result_end)
+        self.code = " + "
+        self.label_result.setText(self.result_start + self.tem_num_1 + self.code + self.result_end)
+        
         pass
 
     def btn_sub_click(self):
-        self.code = "sub"
+        self.code = " - "
+        self.label_result.setText(self.result_start + self.tem_num_1 + self.code + self.result_end)
         pass
 
     def btn_div_click(self):
-        self.code = "div"
+        self.code = " / "
+        self.label_result.setText(self.result_start + self.tem_num_1 + self.code + self.result_end)
         pass
 
     def btn_mul_click(self):
-        self.code = "mul"
+        self.code = " * "
+        self.label_result.setText(self.result_start + self.tem_num_1 + self.code + self.result_end)
         pass
     
     def btn_cancel_click(self):
-        self.tem_num_1 = ""
-        self.tem_num_2 = ""
-        self.label_result.setText(self.result_start + "결과" +self.result_end)
-        self.cal = False
+        
         pass
 
     def btn_delete_click(self):
         pass
     
     def btn_enter_click(self):
-        if self.code == "add":
+        if self.code == " + ":
             reuslt1 = in_tool.add(self.x, self.y)
-        elif self.code == "sub":
+        elif self.code == " - ":
             reuslt1 = in_tool.sub(self.x, self.y)
-        elif self.code == "mul":
+        elif self.code == " * ":
             reuslt1 = in_tool.mul(self.x, self.y)
-        elif self.code == "div":
+        elif self.code == " / ":
             reuslt1, result2, result3 = in_tool.div(self.x, self.y)
         pass
 
