@@ -8,7 +8,7 @@ class mainwindow(QMainWindow, Ui_in_calculator):
     def __init__(self):
         super(mainwindow, self).__init__()
         self.setupUi(self)
-        self.result_start = "<span style=\" font-size:16pt;\">" 
+        self.result_start = "<span style=\" font-size:14pt;\">" 
         self.result_end = "</span></p>"
         self.tem_num_1 = ""
         self.tem_num_2 = ""
@@ -17,6 +17,7 @@ class mainwindow(QMainWindow, Ui_in_calculator):
         self.num_flag = False
         self.code = ""
         self.cal = False
+        self.label_result_text = ""
         # 숫자 버튼 0 ~ 9
         self.btn_zero.clicked.connect(self.test_func)
         self.btn_one.clicked.connect(self.test_func)
@@ -41,47 +42,87 @@ class mainwindow(QMainWindow, Ui_in_calculator):
         self.btn_delete.clicked.connect(self.btn_delete_click)
 
     def test_func(self):
-        self.tem_num_1 += self.sender().text()
-        self.label_result.setText(self.result_start + self.tem_num_1 + self.result_end)
-        self.x = int(self.tem_num_1)
+        if self.num_flag == False:
+            self.tem_num_1 += self.sender().text()
+            self.label_result.setText(self.result_start + self.tem_num_1 + self.code + self.result_end)
+            self.x = int(self.tem_num_1)
+        elif self.num_flag == True:
+            self.tem_num_2 += self.sender().text()
+            self.label_result.setText(self.result_start + self.tem_num_1 + self.code + self.tem_num_2 + self.result_end)
+            self.y = int(self.tem_num_2)
         print(self.x)
         pass
     
     def btn_plus_click(self):
         self.code = " + "
-        self.label_result.setText(self.result_start + self.tem_num_1 + self.code + self.result_end)
+        self.num_flag = True
+        #self.label_result.setText(self.result_start + self.tem_num_1 + self.code + self.result_end)
+        self.label_result.setText(self.result_start + self.tem_num_1 + self.code + self.tem_num_2 + self.result_end)
         pass
 
     def btn_sub_click(self):
         self.code = " - "
-        self.label_result.setText(self.result_start + self.tem_num_1 + self.code + self.result_end)
+        self.num_flag = True
+        #self.label_result.setText(self.result_start + self.tem_num_1 + self.code + self.result_end)
+        self.label_result.setText(self.result_start + self.tem_num_1 + self.code + self.tem_num_2 + self.result_end)
         pass
 
     def btn_div_click(self):
         self.code = " / "
-        self.label_result.setText(self.result_start + self.tem_num_1 + self.code + self.result_end)
+        self.num_flag = True
+        #self.label_result.setText(self.result_start + self.tem_num_1 + self.code + self.result_end)
+        self.label_result.setText(self.result_start + self.tem_num_1 + self.code + self.tem_num_2 + self.result_end)
         pass
 
     def btn_mul_click(self):
         self.code = " * "
-        self.label_result.setText(self.result_start + self.tem_num_1 + self.code + self.result_end)
+        self.num_flag = True
+        #self.label_result.setText(self.result_start + self.tem_num_1 + self.code + self.result_end)
+        self.label_result.setText(self.result_start + self.tem_num_1 + self.code + self.tem_num_2 + self.result_end)
         pass
     
     def btn_cancel_click(self):
         pass
 
     def btn_delete_click(self):
+        self.tem_num_1 = self.tem_num_1[0:-1]
+        #self.label_result.setText(self.result_start + self.tem_num_1 + self.result_end)
+        self.label_result.setText(self.result_start + self.tem_num_1 + self.code + self.tem_num_2 + self.result_end)
         pass
     
     def btn_enter_click(self):
         if self.code == " + ":
-            reuslt1 = in_tool.add(self.x, self.y)
+            result1 = in_tool.add(self.x, self.y)
+            self.num_flag = False
+            self.label_result.setText(self.result_start + self.tem_num_1 + self.code + self.tem_num_2 + " = " + str(result1) + self.result_end)
+            self.label_prevresult.setText(self.result_start + self.tem_num_1 + self.code + self.tem_num_2 + " = " + str(result1) + self.result_end)
+            self.tem_num_1 = ""
+            self.tem_num_2 = ""
+            self.code = ""
         elif self.code == " - ":
-            reuslt1 = in_tool.sub(self.x, self.y)
+            result1 = in_tool.sub(self.x, self.y)
+            self.num_flag = False
+            self.label_result.setText(self.result_start + self.tem_num_1 + self.code + self.tem_num_2 + " = " + str(result1) + self.result_end)
+            self.label_prevresult.setText(self.result_start + self.tem_num_1 + self.code + self.tem_num_2 + " = " + str(result1) + self.result_end)
+            self.tem_num_1 = ""
+            self.tem_num_2 = ""
+            self.code = ""
         elif self.code == " * ":
-            reuslt1 = in_tool.mul(self.x, self.y)
+            result1 = in_tool.mul(self.x, self.y)
+            self.num_flag = False
+            self.label_result.setText(self.result_start + self.tem_num_1 + self.code + self.tem_num_2 + " = " + str(result1) + self.result_end)
+            self.label_prevresult.setText(self.result_start + self.tem_num_1 + self.code + self.tem_num_2 + " = " + str(result1) + self.result_end)
+            self.tem_num_1 = ""
+            self.tem_num_2 = ""
+            self.code = ""
         elif self.code == " / ":
-            reuslt1, result2, result3 = in_tool.div(self.x, self.y)
+            result1, result2, result3 = in_tool.div(self.x, self.y)
+            self.label_result.setText(self.result_start + self.tem_num_1 + self.code + self.tem_num_2 + " = " + str(result2) + "..." + str(result3) + self.result_end)
+            self.label_prevresult.setText(self.result_start + self.tem_num_1 + self.code + self.tem_num_2 + " = " + str(result2) + "..." + str(result3) + self.result_end)
+            self.tem_num_1 = ""
+            self.tem_num_2 = ""
+            self.code = ""
+            self.num_flag = False
         pass
 
 if __name__ == "__main__":
