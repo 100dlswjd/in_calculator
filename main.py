@@ -41,6 +41,9 @@ class mainwindow(QMainWindow, Ui_in_calculator):
         self.btn_enter.clicked.connect(self.btn_enter_click)
         self.btn_delete.clicked.connect(self.btn_delete_click)
 
+        # 결과, 이전결과 초기화
+        self.label_result.setText(self.result_start + "0" + self.result_end)
+        self.label_prevresult.setText("")
     def test_func(self):
         if self.num_flag == False:
             self.tem_num_1 += self.sender().text()
@@ -82,6 +85,7 @@ class mainwindow(QMainWindow, Ui_in_calculator):
         pass
     
     def btn_cancel_click(self):
+        self.label_result.setText(self.result_start + "0" + self.result_end)
         pass
 
     def btn_delete_click(self):
