@@ -1,3 +1,5 @@
+from PySide6.QtCore import QEvent, Qt
+from PySide6.QtGui import QKeyEvent
 import in_tool
 import sys
 
@@ -44,6 +46,8 @@ class mainwindow(QMainWindow, Ui_in_calculator):
         # 결과, 이전결과 초기화
         self.label_result.setText(self.result_start + "0" + self.result_end)
         self.label_prevresult.setText("")
+
+        self.installEventFilter(self)
     def test_func(self):
         if self.num_flag == False:
             self.tem_num_1 += self.sender().text()
@@ -89,9 +93,13 @@ class mainwindow(QMainWindow, Ui_in_calculator):
         pass
 
     def btn_delete_click(self):
-        self.tem_num_1 = self.tem_num_1[0:-1]
+        if self.num_flag == False:
+            self.tem_num_1 = self.tem_num_1[0:-1]
         #self.label_result.setText(self.result_start + self.tem_num_1 + self.result_end)
-        self.label_result.setText(self.result_start + self.tem_num_1 + self.code + self.tem_num_2 + self.result_end)
+            self.label_result.setText(self.result_start + self.tem_num_1 + self.code + self.tem_num_2 + self.result_end)
+        if self.num_flag == True:
+            self.tem_num_2 = self.tem_num_2[0:-1]
+            self.label_result.setText(self.result_start + self.tem_num_1 + self.code + self.tem_num_2 + self.result_end)
         pass
     
     def btn_enter_click(self):
@@ -128,6 +136,42 @@ class mainwindow(QMainWindow, Ui_in_calculator):
             self.code = ""
             self.num_flag = False
         pass
+
+    def eventFilter(self, watched, event) -> bool:
+        if event.type() == QEvent.KeyRelease:
+            key_event = QKeyEvent(event).key()
+            print(key_event)
+            if 9 >= key_event - 48 >= 0 :
+                if self.num_flag == False:
+                    self.tem_num_1 += str(key_event - 48)
+                    self.label_result.setText(self.result_start + str(self.tem_num_1) + self.code + self.result_end)
+                    self.x = int(self.tem_num_1)
+                elif self.num_flag == True:
+                    self.tem_num_2 += str(key_event - 48)
+                    self.label_result.setText(self.result_start + self.tem_num_1 + self.code + self.tem_num_2 + self.result_end)
+                    self.y = int(self.tem_num_2)
+            # 47 = /
+            elif key_event == 47:
+                self.btn_div_click()
+            # 42 = *
+            elif key_event == 42:
+                self.btn_mul_click()
+            # 45 = -
+            elif key_event == 45:
+                self.btn_sub_click()
+            # 43 = +
+            elif key_event == 43:
+                self.btn_plus_click()
+            # 16777221 = enter
+            elif key_event == 16777221:
+                self.btn_enter_click()
+            # 16777216 = esc
+            elif key_event == 16777216:
+                self.btn_cancel_click()
+            # 16777219 = backspace
+            elif key_event == 16777219:
+                self.btn_delete_click()
+        return super().eventFilter(watched, event)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
