@@ -89,6 +89,9 @@ class mainwindow(QMainWindow, Ui_in_calculator):
         pass
     
     def btn_cancel_click(self):
+        self.tem_num_1 = "0"
+        self.tem_num_2 = "0"
+        self.code = ""
         self.label_result.setText(self.result_start + "0" + self.result_end)
         pass
 
@@ -100,6 +103,10 @@ class mainwindow(QMainWindow, Ui_in_calculator):
         if self.num_flag == True:
             self.tem_num_2 = self.tem_num_2[0:-1]
             self.label_result.setText(self.result_start + self.tem_num_1 + self.code + self.tem_num_2 + self.result_end)
+            if self.tem_num_2 == "":
+                self.code = ""
+                self.label_result.setText(self.result_start + self.tem_num_1 + self.code + self.tem_num_2 + self.result_end)
+                self.num_flag = False
         pass
     
     def btn_enter_click(self):
@@ -111,6 +118,7 @@ class mainwindow(QMainWindow, Ui_in_calculator):
             self.tem_num_1 = ""
             self.tem_num_2 = ""
             self.code = ""
+
         elif self.code == " - ":
             result1 = in_tool.sub(self.x, self.y)
             self.num_flag = False
@@ -119,6 +127,7 @@ class mainwindow(QMainWindow, Ui_in_calculator):
             self.tem_num_1 = ""
             self.tem_num_2 = ""
             self.code = ""
+
         elif self.code == " * ":
             result1 = in_tool.mul(self.x, self.y)
             self.num_flag = False
@@ -127,6 +136,7 @@ class mainwindow(QMainWindow, Ui_in_calculator):
             self.tem_num_1 = ""
             self.tem_num_2 = ""
             self.code = ""
+
         elif self.code == " / ":
             result1, result2, result3 = in_tool.div(self.x, self.y)
             self.label_result.setText(self.result_start + self.tem_num_1 + self.code + self.tem_num_2 + " = " + str(result2) + "..." + str(result3) + self.result_end)
